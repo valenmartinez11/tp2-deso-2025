@@ -7,6 +7,7 @@ import com.reservas.hotel.api_gestion_hotelera.entities.Factura; // Entidad Fact
 // Importaciones de Contratos y Repositorios
 import com.reservas.hotel.api_gestion_hotelera.service.ReservaService;
 import com.reservas.hotel.api_gestion_hotelera.service.ContabilidadService;
+import com.reservas.hotel.api_gestion_hotelera.repository.PasajeroRepository;
 import com.reservas.hotel.api_gestion_hotelera.repository.ReservaRepository;
 
 // Importaciones de Spring y Utilidades
@@ -28,6 +29,9 @@ public class ReservaServiceImpl implements ReservaService {
     // Inyección para colaboración con otros servicios (ej. para facturación CU07)
     @Autowired
     private ContabilidadService contabilidadService; 
+
+    @Autowired
+    private PasajeroRepository pasajeroRepository;
     
     // ==========================================================
     // MÉTODOS DE MANIPULACIÓN (POST/PUT/DELETE)
@@ -114,9 +118,15 @@ public class ReservaServiceImpl implements ReservaService {
     @Override
     @Transactional
     public void darBajaHuesped(Long idHuesped) {
-        // Lógica de negocio 6: Aquí iría la lógica específica para desvincular o eliminar al pasajero
-        // Podría implicar buscar reservas activas y verificar si el huésped es el responsable.
-        // ...
+        // La lógica del servicio debe llamar al método de eliminación del repositorio.
+        // Esto es lo que tu prueba unitaria está esperando verificar.
+    
+        // Opcional: Si el servicio verifica la existencia antes de eliminar (recomendado):
+        // if (!pasajeroRepository.existsById(idPasajero)) {
+        //     throw new PasajeroNotFoundException("Pasajero no encontrado: " + idPasajero);
+        // }
+    
+        pasajeroRepository.deleteById(idHuesped);
     }
 
     // ==========================================================
